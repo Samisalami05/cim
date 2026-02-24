@@ -1,0 +1,223 @@
+#include "keys.h"
+
+uint8_t is_control_key(key k) {
+	return k >= KEY_ARROW_UP && k < KEY_LAST;
+}
+
+char* key_str(key k) {
+	switch (k) {
+		case KEY_NONE: return "KEY_NONE";
+		
+		case KEY_SPACE: return "KEY_SPACE";
+		case KEY_EXCLAIM: return "KEY_EXCLAIM";
+		case KEY_QUOTE_DBL: return "KEY_QUOTE_DBL";
+		case KEY_HASHTAG: return "KEY_HASHTAG";
+		case KEY_DOLLAR: return "KEY_DOLLAR";
+		case KEY_PERCENT: return "KEY_PERCENT";
+		case KEY_AMPERSAND: return "KEY_AMPERSAND";
+		case KEY_QUOTE: return "KEY_QUOTE";
+		case KEY_PAREN_OPEN: return "KEY_PAREN_OPEN";
+		case KEY_PAREN_CLOSE: return "KEY_PAREN_CLOSE";
+		case KEY_ASTERISK: return "KEY_ASTERISK";
+		case KEY_PLUS: return "KEY_PLUS";
+		case KEY_COMMA: return "KEY_COMMA";
+		case KEY_MINUS: return "KEY_MINUS";
+		case KEY_DOT: return "KEY_DOT";
+		case KEY_SLASH: return "KEY_SLASH";
+		case KEY_ZERO: return "KEY_ZERO";
+		case KEY_ONE: return "KEY_ONE";
+		case KEY_TWO: return "KEY_TWO";
+		case KEY_THREE: return "KEY_THREE";
+		case KEY_FOUR: return "KEY_FOUR";
+		case KEY_FIVE: return "KEY_FIVE";
+		case KEY_SIX: return "KEY_SIX";
+		case KEY_SEVEN: return "KEY_SEVEN";
+		case KEY_EIGHT: return "KEY_EIGHT";
+		case KEY_NINE: return "KEY_NINE";
+		case KEY_COLON: return "KEY_COLON";
+		case KEY_SEMICOLON: return "KEY_SEMICOLON";
+		case KEY_LESS_THAN: return "KEY_LESS_THAN";
+		case KEY_EQUALS: return "KEY_EQUALS";
+		case KEY_GREATER_THAN: return "KEY_GREATER_THAN";
+		case KEY_QUESTION: return "KEY_QUESTION";
+		case KEY_AT: return "KEY_AT";
+
+		case KEY_A_UP: return "KEY_A_UP";
+		case KEY_B_UP: return "KEY_B_UP";
+		case KEY_C_UP: return "KEY_C_UP";
+		case KEY_D_UP: return "KEY_D_UP";
+		case KEY_E_UP: return "KEY_E_UP";
+		case KEY_F_UP: return "KEY_F_UP";
+		case KEY_G_UP: return "KEY_G_UP";
+		case KEY_H_UP: return "KEY_H_UP";
+		case KEY_I_UP: return "KEY_I_UP";
+		case KEY_J_UP: return "KEY_J_UP";
+		case KEY_K_UP: return "KEY_K_UP";
+		case KEY_L_UP: return "KEY_L_UP";
+		case KEY_M_UP: return "KEY_M_UP";
+		case KEY_N_UP: return "KEY_N_UP";
+		case KEY_O_UP: return "KEY_O_UP";
+		case KEY_P_UP: return "KEY_P_UP";
+		case KEY_Q_UP: return "KEY_Q_UP";
+		case KEY_R_UP: return "KEY_R_UP";
+		case KEY_S_UP: return "KEY_S_UP";
+		case KEY_T_UP: return "KEY_T_UP";
+		case KEY_U_UP: return "KEY_U_UP";
+		case KEY_V_UP: return "KEY_V_UP";
+		case KEY_W_UP: return "KEY_W_UP";
+		case KEY_X_UP: return "KEY_X_UP";
+		case KEY_Y_UP: return "KEY_Y_UP";
+		case KEY_Z_UP: return "KEY_Z_UP";
+
+		case KEY_BRACKET_OPEN: return "KEY_BRACKET_OPEN";
+		case KEY_BACKSLASH: return "KEY_BACKSLASH";
+		case KEY_BRACKET_CLOSE: return "KEY_BRACKET_CLOSE";
+		case KEY_CARET: return "KEY_CARET";
+		case KEY_UNDERSCORE: return "KEY_UNDERSCORE";
+		case KEY_GRAVE_ACCENT: return "KEY_GRAVE_ACCENT";
+
+		case KEY_A: return "KEY_A";
+		case KEY_B: return "KEY_B";
+		case KEY_C: return "KEY_C";
+		case KEY_D: return "KEY_D";
+		case KEY_E: return "KEY_E";
+		case KEY_F: return "KEY_F";
+		case KEY_G: return "KEY_G";
+		case KEY_H: return "KEY_H";
+		case KEY_I: return "KEY_I";
+		case KEY_J: return "KEY_J";
+		case KEY_K: return "KEY_K";
+		case KEY_L: return "KEY_L";
+		case KEY_M: return "KEY_M";
+		case KEY_N: return "KEY_N";
+		case KEY_O: return "KEY_O";
+		case KEY_P: return "KEY_P";
+		case KEY_Q: return "KEY_Q";
+		case KEY_R: return "KEY_R";
+		case KEY_S: return "KEY_S";
+		case KEY_T: return "KEY_T";
+		case KEY_U: return "KEY_U";
+		case KEY_V: return "KEY_V";
+		case KEY_W: return "KEY_W";
+		case KEY_X: return "KEY_X";
+		case KEY_Y: return "KEY_Y";
+		case KEY_Z: return "KEY_Z";
+
+		case KEY_BRACE_OPEN: return "KEY_BRACE_OPEN";
+		case KEY_BAR: return "KEY_BAR";
+		case KEY_BRACE_CLOSE: return "KEY_BRACE_CLOSE";
+		case KEY_TILDE: return "KEY_TILDE";
+		case KEY_DELETE: return "KEY_DELETE";
+
+		// utf-8
+	
+		case KEY_NO_BREAK_SPACE: return "KEY_NO_BREAK_SPACE";
+		case KEY_INVERTED_EXCLAMATION_MARK: return "KEY_INVERTED_EXCLAMATION_MARK";
+		case KEY_CENT_SIGN: return "KEY_CENT_SIGN";
+		case KEY_POUND_SIGN: return "KEY_POUND_SIGN";
+		case KEY_CURRENCY_SIGN: return "KEY_CURRENCY_SIGN";
+		case KEY_YEN_SIGN: return "KEY_YEN_SIGN";
+		case KEY_BROKEN_BAR: return "KEY_BROKEN_BAR";
+		case KEY_SECTION_SIGN: return "KEY_SECTION_SIGN";
+		case KEY_DIAERESIS: return "KEY_DIAERESIS";
+		case KEY_COPYRIGHT_SIGN: return "KEY_COPYRIGHT_SIGN";
+		case KEY_FEMININE_ORDINAL_INDICATOR: return "KEY_FEMININE_ORDINAL_INDICATOR";
+		case KEY_LEFT_POINTING_DOUBLE_ANGLE_QUOTATION_MARK: return "KEY_LEFT_POINTING_DOUBLE_ANGLE_QUOTATION_MARK";
+		case KEY_NOT_SIGN: return "KEY_NOT_SIGN";
+		case KEY_SOFT_HYPHEN: return "KEY_SOFT_HYPHEN";
+		case KEY_REGISTERED_SIGN: return "KEY_REGISTERED_SIGN";
+		case KEY_MACRON: return "KEY_MACRON";
+		case KEY_DEGREE_SIGN: return "KEY_DEGREE_SIGN";
+		case KEY_PLUS_MINUS_SIGN: return "KEY_PLUS_MINUS_SIGN";
+		case KEY_SUPERSCRIPT_TWO: return "KEY_SUPERSCRIPT_TWO";
+		case KEY_SUPERSCRIPT_THREE: return "KEY_SUPERSCRIPT_THREE";
+		case KEY_ACUTE_ACCENT: return "KEY_ACUTE_ACCENT";
+		case KEY_MICRO_SIGN: return "KEY_MICRO_SIGN";
+		case KEY_PILCROW_SIGN: return "KEY_PILCROW_SIGN";
+		case KEY_MIDDLE_DOT: return "KEY_MIDDLE_DOT";
+		case KEY_CEDILLA: return "KEY_CEDILLA";
+		case KEY_SUPERSCRIPT_ONE: return "KEY_SUPERSCRIPT_ONE";
+		case KEY_MASCULINE_ORDINAL_INDICATOR: return "KEY_MASCULINE_ORDINAL_INDICATOR";
+		case KEY_RIGHT_POINTING_DOUBLE_ANGLE_QUOTATION_MARK: return "KEY_RIGHT_POINTING_DOUBLE_ANGLE_QUOTATION_MARK";
+		case KEY_VULGAR_FRACTION_ONE_QUARTER: return "KEY_VULGAR_FRACTION_ONE_QUARTER";
+		case KEY_VULGAR_FRACTION_ONE_HALF: return "KEY_VULGAR_FRACTION_ONE_HALF";
+		case KEY_VULGAR_FRACTION_THREE_QUARTERS: return "KEY_VULGAR_FRACTION_THREE_QUARTERS";
+		case KEY_INVERTED_QUESTION_MARK: return "KEY_INVERTED_QUESTION_MARK";
+		case KEY_A_UP_GRAVE: return "KEY_A_UP_GRAVE";
+		case KEY_A_UP_ACUTE: return "KEY_A_UP_ACUTE";
+		case KEY_A_UP_CIRCUMFLEX: return "KEY_A_UP_CIRCUMFLEX";
+		case KEY_A_UP_TILDE: return "KEY_A_UP_TILDE";
+		case KEY_A_UP_DIAERESIS: return "KEY_A_UP_DIAERESIS";
+		case KEY_A_UP_RING_ABOVE: return "KEY_A_UP_RING_ABOVE";
+		case KEY_AE_UP: return "KEY_AE_UP";
+		case KEY_C_UP_CEDILLA: return "KEY_C_UP_CEDILLA";
+		case KEY_E_UP_GRAVE: return "KEY_E_UP_GRAVE";
+		case KEY_E_UP_ACUTE: return "KEY_E_UP_ACUTE";
+		case KEY_E_UP_CIRCUMFLEX: return "KEY_E_UP_CIRCUMFLEX";
+		case KEY_E_UP_DIAERESIS: return "KEY_E_UP_DIAERESIS";
+		case KEY_I_UP_GRAVE: return "KEY_I_UP_GRAVE";
+		case KEY_I_UP_ACUTE: return "KEY_I_UP_ACUTE";
+		case KEY_I_UP_CIRCUMFLEX: return "KEY_I_UP_CIRCUMFLEX";
+		case KEY_I_UP_DIAERESIS: return "KEY_I_UP_DIAERESIS";
+		case KEY_ETH_UP: return "KEY_ETH_UP";
+		case KEY_N_UP_TILDE: return "KEY_N_UP_TILDE";
+		case KEY_O_UP_GRAVE: return "KEY_O_UP_GRAVE";
+		case KEY_O_UP_ACUTE: return "KEY_O_UP_ACUTE";
+		case KEY_O_UP_CIRCUMFLEX: return "KEY_O_UP_CIRCUMFLEX";
+		case KEY_O_UP_TILDE: return "KEY_O_UP_TILDE";
+		case KEY_O_UP_DIAERESIS: return "KEY_O_UP_DIAERESIS";
+		case KEY_MULTIPLICATION_SIGN: return "KEY_MULTIPLICATION_SIGN";
+		case KEY_O_UP_STROKE: return "KEY_O_UP_STROKE";
+		case KEY_U_UP_GRAVE: return "KEY_U_UP_GRAVE";
+		case KEY_U_UP_ACUTE: return "KEY_U_UP_ACUTE";
+		case KEY_U_UP_CIRCUMFLEX: return "KEY_U_UP_CIRCUMFLEX";
+		case KEY_U_UP_DIAERESIS: return "KEY_U_UP_DIAERESIS";
+		case KEY_Y_UP_ACUTE: return "KEY_Y_UP_ACUTE";
+		case KEY_THORN_UP: return "KEY_THORN_UP";
+		case KEY_SHARP_S: return "KEY_SHARP_S";
+		case KEY_A_GRAVE: return "KEY_A_GRAVE";
+		case KEY_A_ACUTE: return "KEY_A_ACUTE";
+		case KEY_A_CIRCUMFLEX: return "KEY_A_CIRCUMFLEX";
+		case KEY_A_TILDE: return "KEY_A_TILDE";
+		case KEY_A_DIAERESIS: return "KEY_A_DIAERESIS";
+		case KEY_A_RING_ABOVE: return "KEY_A_RING_ABOVE";
+		case KEY_AE: return "KEY_AE";
+		case KEY_C_CEDILLA: return "KEY_C_CEDILLA";
+		case KEY_E_GRAVE: return "KEY_E_GRAVE";
+		case KEY_E_ACUTE: return "KEY_E_ACUTE";
+		case KEY_E_CIRCUMFLEX: return "KEY_E_CIRCUMFLEX";
+		case KEY_E_DIAERESIS: return "KEY_E_DIAERESIS";
+		case KEY_I_GRAVE: return "KEY_I_GRAVE";
+		case KEY_I_ACUTE: return "KEY_I_ACUTE";
+		case KEY_I_CIRCUMFLEX: return "KEY_I_CIRCUMFLEX";
+		case KEY_I_DIAERESIS: return "KEY_I_DIAERESIS";
+		case KEY_ETH: return "KEY_ETH";
+		case KEY_N_TILDE: return "KEY_N_TILDE";
+		case KEY_O_GRAVE: return "KEY_O_GRAVE";
+		case KEY_O_ACUTE: return "KEY_O_ACUTE";
+		case KEY_O_CIRCUMFLEX: return "KEY_O_CIRCUMFLEX";
+		case KEY_O_TILDE: return "KEY_O_TILDE";
+		case KEY_O_DIAERESIS: return "KEY_O_DIAERESIS";
+		case KEY_DIVISION_SIGN: return "KEY_DIVISION_SIGN";
+		case KEY_O_STROKE: return "KEY_O_STROKE";
+		case KEY_U_GRAVE: return "KEY_U_GRAVE";
+		case KEY_U_ACUTE: return "KEY_U_ACUTE";
+		case KEY_U_CIRCUMFLEX: return "KEY_U_CIRCUMFLEX";
+		case KEY_U_DIAERESIS: return "KEY_U_DIAERESIS";
+		case KEY_Y_ACUTE: return "KEY_Y_ACUTE";
+		case KEY_THORN: return "KEY_THORN";
+		case KEY_Y_DIAERESIS: return "KEY_Y_DIAERESIS";
+
+		// Control 
+
+		case KEY_ARROW_UP: return "KEY_ARROW_UP";
+		case KEY_ARROW_DOWN: return "KEY_ARROW_DOWN";
+		case KEY_ARROW_LEFT: return "KEY_ARROW_LEFT";
+		case KEY_ARROW_RIGHT: return "KEY_ARROW_RIGHT";
+
+		case KEY_ESCAPE: return "KEY_ESCAPE";
+
+		case KEY_LAST: return "KEY_LAST";
+		default: return "Unknown key";
+	}
+}
