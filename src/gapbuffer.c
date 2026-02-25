@@ -6,32 +6,42 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+// Allocate buffer to fit size
 static uint8_t allocate(gapbuffer* buf, size_t size) {
-	void* temp = realloc(buf->data, size);
+	uint8_t* temp = realloc(buf->data, size);
 
 	if (temp == NULL) {
-		perror("buffer: realloc");
+		perror("gapbuffer: realloc");
 		return 0;
 	}
 	buf->data = temp;
+	buf->allocated = size;
 
-	size_t right = buf->size - buf->gap_end;
-	size_t total_right = buf->allocated - buf->gap_end;
+	// Bytes to the right of gap
+	size_t right = buf->size - buf->gap_start;
 
-	size_t move = total_right - right;
-	memcpy(buf->data + buf->gap_end + move, buf->data + buf->gap_end, right);
+	printf("right %ld\n", right);
+	if (right != 0) {
+		size_t move = buf->allocated - right - 1;
+		memcpy(buf->data + move, buf->data + buf->gap_end + 1, right);
+		buf->gap_end = move - 1;
+	}
+	else {
+		buf->gap_end = buf->allocated - 1;
+	}
 
-	buf->gap_end += move;
 	return 1;
 }
 
 // Resizes buffer if necessary
 static uint8_t ensure_size(gapbuffer* buf, size_t size) {
 	if (buf->allocated < size) {
-		while (buf->allocated < size) {
-			buf->allocated = buf->allocated == 0 ? 4 : buf->allocated * 2;
+		size_t new_size = buf->allocated;
+		while (new_size < size) {
+			new_size = new_size == 0 ? 4 : new_size * 2;
 		}
-		if (!allocate(buf, buf->allocated)) return 0;
+
+		if (!allocate(buf, new_size)) return 0;
 	}
 	return 1;
 }
@@ -50,7 +60,7 @@ uint8_t gapbuffer_init_f(gapbuffer* buf, const char* file_path) {
 
 	FILE* f = fopen(file_path, "rb");
 	if (f == NULL) {
-		perror("buffer: fopen");
+		perror("gapbuffer: fopen");
 		return 0;
 	}
 
@@ -85,22 +95,39 @@ uint8_t gapbuffer_append_n(gapbuffer* buf, const uint8_t* data, size_t size) {
 	buf->size += size;
 	buf->gap_start += size;
 
+	printf("[ ");
+	for (int i = 0; i < buf->allocated; i++) {
+		if ((i >= buf->gap_start && i <= buf->gap_end) || i >= buf->size + (buf->gap_end - buf->gap_start)) {
+			printf("_ ");
+			continue;
+		}
+		printf("%c ", buf->data[i]);
+	}
+	printf("]\n");
+
+
 	return 1;
 }
 
 uint8_t gapbuffer_move(gapbuffer* buf, int move) {
 	if (move == 0) return 1;
-	if (move < -buf->gap_start || move > buf->allocated - buf->gap_end) {
+	if (buf->gap_start + move < 0 || buf->gap_start + move > buf->size) {
 		fprintf(stderr, "gapbuffer: Invalid move: Trying to move outside of buffer\n");
 		return 0;
 	}
 
 	if (move < 0) {
-		memcpy(buf->data + buf->gap_end + move, buf->data + buf->gap_start + move, -move);
+		memcpy(buf->data + buf->gap_end + 1 + move, buf->data + buf->gap_start + move, -move);
 	}
 	else {
-		memcpy(buf->data + buf->gap_start, buf->data + buf->gap_end, move);
+		memcpy(buf->data + buf->gap_start, buf->data + buf->gap_end + 1, move);
 	}
+	
+	buf->gap_start += move;
+	buf->gap_end += move;
+
+	printf("pos: %ld\n", buf->gap_start);
+
 	return 1;
 }
 

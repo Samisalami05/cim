@@ -62,3 +62,11 @@ void terminal_enable_rawmode(terminal* t) {
 void terminal_disable_rawmode(terminal* t) {
     tcsetattr(STDIN_FILENO, TCSANOW, &t->def_mode);
 }
+
+void terminal_hide_cursor() {
+	printf("\e[?25l");
+}
+
+void terminal_show_cursor() {
+	printf("\e[?25h");
+}

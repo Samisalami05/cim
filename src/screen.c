@@ -24,7 +24,9 @@ uint8_t screen_set_c(screen* s, char c, uint16_t x, uint16_t y) {
 }
 
 uint8_t screen_set_n(screen* s, char* data, uint16_t size, uint16_t x, uint16_t y) {
-	if (x + size >= s->width || y >= s->height) {
+	if (y + (size / s->height) > s->width) {
+		printf("size: %d\n", size);
+		printf("screen %d %d, res: %d\n", s->width, s->height, y + (size / s->height));
 		fprintf(stderr, "screen: Cant set %d characters: Coordinate %d, %d out of bound\n", size, x, y);
 		return 0;
 	}

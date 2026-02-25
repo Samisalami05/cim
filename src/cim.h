@@ -3,6 +3,7 @@
 
 #include "cursor.h"
 #include "gapbuffer.h"
+#include "render_buffer.h"
 #include "screen.h"
 #include "terminal.h"
 #include <stdint.h>
@@ -12,6 +13,7 @@ typedef struct {
 	screen screen;
 	terminal terminal;
 	cursor cursor;
+	render_buffer render_buf;
 } cim;
 
 cim* cim_init();

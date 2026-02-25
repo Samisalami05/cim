@@ -23,4 +23,7 @@ void terminal_alternative_screen();
 void terminal_enable_rawmode(terminal* t);
 void terminal_disable_rawmode(terminal* t);
 
+void terminal_hide_cursor();
+void terminal_show_cursor();
+
 #endif
