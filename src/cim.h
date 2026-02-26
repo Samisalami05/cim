@@ -3,13 +3,16 @@
 
 #include "cursor.h"
 #include "gapbuffer.h"
+#include "linebuffer.h"
 #include "render_buffer.h"
 #include "screen.h"
 #include "terminal.h"
 #include <stdint.h>
 
 typedef struct {
-	gapbuffer buffer;
+	gapbuffer gap_buf;
+	linebuffer line_buf;
+
 	screen screen;
 	terminal terminal;
 	cursor cursor;

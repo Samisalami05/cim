@@ -36,10 +36,8 @@ static uint8_t allocate(gapbuffer* buf, size_t size) {
 // Resizes buffer if necessary
 static uint8_t ensure_size(gapbuffer* buf, size_t size) {
 	if (buf->allocated < size) {
-		size_t new_size = buf->allocated;
-		while (new_size < size) {
-			new_size = new_size == 0 ? 4 : new_size * 2;
-		}
+		size_t new_size = buf->allocated == 0 ? 4 : buf->allocated;
+		while (new_size < size) new_size *= 2;
 
 		if (!allocate(buf, new_size)) return 0;
 	}

@@ -17,6 +17,7 @@ enum {
     KEY_ARROW_LEFT,
     KEY_HOME,
     KEY_END,
+	KEY_ENTER,
     KEY_DELETE,
     KEY_PAGE_UP,
     KEY_PAGE_DOWN

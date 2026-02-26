@@ -1,5 +1,6 @@
 #include "input.h"
 #include <unistd.h>
+#include <stdio.h>
 
 static key_event read_escape_sequence(void) {
     uint8_t seq[2];
@@ -72,6 +73,10 @@ key_event read_key(void) {
 
     if (read(STDIN_FILENO, &c, 1) != 1)
         return 0;
+
+	if (c == '\r' || c == '\n') {
+		return KEY_SPECIAL | KEY_ENTER;
+	}
 
     if (c == 0x1B)
         return read_escape_sequence();
