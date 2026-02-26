@@ -23,6 +23,13 @@ static void deinit(cim* c) {
 	free(c);
 }
 
+static void print_buffer_content(gapbuffer* buf) {
+	char data[buf->size + 1];
+	gapbuffer_read(buf, (uint8_t*)data, 0, buf->size);
+	data[buf->size] = '\0';
+	printf("file: %s\n", data);
+}
+
 uint8_t cim_run(cim* c) {
 	terminal_alternative_screen();
 	terminal_clear();
@@ -71,14 +78,13 @@ uint8_t cim_run(cim* c) {
 		//printf("\n");
 		gapbuffer_append_n(&c->buffer, (const uint8_t*)utf8_bytes, n);
 
+		if (key == 'w') print_buffer_content(&c->buffer);
 	}
 
 	terminal_disable_rawmode(&c->terminal);
 	terminal_main_screen();
 
-	gapbuffer_append(&c->buffer, '\0');
-	printf("file: %s\n", c->buffer.data);
-
+	
 	deinit(c);
 	return 1;
 }

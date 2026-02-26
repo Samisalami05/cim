@@ -22,7 +22,7 @@ static uint8_t allocate(gapbuffer* buf, size_t size) {
 
 	printf("right %ld\n", right);
 	if (right != 0) {
-		size_t move = buf->allocated - right - 1;
+		size_t move = buf->allocated - right;
 		memcpy(buf->data + move, buf->data + buf->gap_end + 1, right);
 		buf->gap_end = move - 1;
 	}
@@ -97,7 +97,7 @@ uint8_t gapbuffer_append_n(gapbuffer* buf, const uint8_t* data, size_t size) {
 
 	printf("[ ");
 	for (int i = 0; i < buf->allocated; i++) {
-		if ((i >= buf->gap_start && i <= buf->gap_end) || i >= buf->size + (buf->gap_end - buf->gap_start)) {
+		if ((i >= buf->gap_start && i <= buf->gap_end)) {
 			printf("_ ");
 			continue;
 		}
@@ -152,22 +152,19 @@ uint8_t gapbuffer_read_c(gapbuffer* buf, uint8_t* dest, size_t off) {
 }
 
 uint8_t gapbuffer_read(gapbuffer* buf, uint8_t* dest, size_t off, size_t size) {
-	if (off < 0 || off + size >= buf->size) {
+	if (off < 0 || off + size > buf->size) {
 		fprintf(stderr, "Cant read from buffer: Trying to read out of bounds\n");
 		return 0;
 	}
-	// TODO: Fix this
-	if (off >= buf->gap_start) {
-		size_t gap = buf->gap_end - buf->gap_start;
-		off += gap;
-	}
 
 	// not reading over gap
-	if (off + size < buf->gap_start || off > buf->gap_end) {
+	if (off + size <= buf->gap_start || off > buf->gap_end) {
 		memcpy(dest, buf->data + off, size);
 	}
 	else {
-		printf("THIS is not implemented lol\n");
+		size_t left = buf->gap_start - off;
+		memcpy(dest, buf->data + off, left);
+		memcpy(dest + left, buf->data + buf->gap_end + 1, size - left);
 	}
 	return 1;
 }
