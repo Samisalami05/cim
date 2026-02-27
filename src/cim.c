@@ -47,18 +47,18 @@ static void render(cim* c, int scroll) {
 
 	for (int line = scroll + 1; line < scroll + c->line_buf.count; line++) {
 		size_t next_off;
-		linebuffer_line_offset(&c->line_buf, &next_off, line);
+		if (!linebuffer_line_offset(&c->line_buf, &next_off, line)) return;
 
 		size_t length = next_off - curr_off;
 		char str[length + 1];
-		gapbuffer_read(&c->gap_buf, (uint8_t*)str, curr_off, length);
+		if (!gapbuffer_read(&c->gap_buf, (uint8_t*)str, curr_off, length)) return;
 		str[length] = '\0';
 		printf(" %d:%ld:%ld %s", line, length, curr_off, str);
 		curr_off = next_off;
 	}
 	size_t length = c->gap_buf.size - curr_off;
 	char str[length + 1];
-	gapbuffer_read(&c->gap_buf, (uint8_t*)str, curr_off, length);
+	if (!gapbuffer_read(&c->gap_buf, (uint8_t*)str, curr_off, length)) return;
 	str[length] = '\0';
 	printf(" %ld:%ld:%ld %s", scroll + c->line_buf.count, length, curr_off, str);
 	printf("\nEND\n");
@@ -107,14 +107,14 @@ uint8_t cim_run(cim* c) {
 		//if (special == KEY_ARROW_DOWN) linebuffer_move(&c->line_buf, 1);
 
 		if (special == KEY_ENTER) {
-			gapbuffer_append(&c->gap_buf, '\n');
-			linebuffer_append(&c->line_buf, c->gap_buf.gap_start);
+			if (!gapbuffer_append(&c->gap_buf, '\n')) return 0;
+			if (!linebuffer_append(&c->line_buf, c->gap_buf.gap_start)) return 0;
 		}
 
 		if (key & KEY_SPECIAL) continue;
 		
 		size_t n = utf8_encode(special, utf8_bytes);
-       	gapbuffer_append_n(&c->gap_buf, (const uint8_t*)utf8_bytes, n);
+       	if (!gapbuffer_append_n(&c->gap_buf, (const uint8_t*)utf8_bytes, n)) return 0;
 
 		print_buffer_content(&c->gap_buf);
 	}
