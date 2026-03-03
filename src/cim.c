@@ -53,6 +53,7 @@ static void render(cim* c, int scroll) {
 		char str[length + 1];
 		if (!gapbuffer_read(&c->gap_buf, (uint8_t*)str, curr_off, length)) return;
 		str[length] = '\0';
+
 		printf(" %d:%ld:%ld %s", line, length, curr_off, str);
 		curr_off = next_off;
 	}
@@ -62,6 +63,8 @@ static void render(cim* c, int scroll) {
 	str[length] = '\0';
 	printf(" %ld:%ld:%ld %s", scroll + c->line_buf.count, length, curr_off, str);
 	printf("\nEND\n");
+	printf("%ld\n", c->gap_buf.gap_start);
+	print_buffer_content(&c->gap_buf);
 }
 
 uint8_t cim_run(cim* c) {
@@ -92,7 +95,11 @@ uint8_t cim_run(cim* c) {
 
 	for (;;) {
 		//screen_set_n(&c->screen, (char*)c->render_buf.data, c->render_buf.width * c->render_buf.height, 0, 0);
-		render(c, scroll);
+		//render(c, scroll);
+		
+		//print_buffer_content(&c->gap_buf);
+		gapbuffer_print(&c->gap_buf);
+
 		key_event key = read_key();  // returns immediately
         if (key == 'q')
             break;
@@ -111,18 +118,21 @@ uint8_t cim_run(cim* c) {
 			if (!linebuffer_append(&c->line_buf, c->gap_buf.gap_start)) return 0;
 		}
 
+		if (key == 127) { // backspace
+			gapbuffer_remove(&c->gap_buf);
+			continue;
+		}
+
 		if (key & KEY_SPECIAL) continue;
+
 		
 		size_t n = utf8_encode(special, utf8_bytes);
        	if (!gapbuffer_append_n(&c->gap_buf, (const uint8_t*)utf8_bytes, n)) return 0;
-
-		print_buffer_content(&c->gap_buf);
 	}
 
 	terminal_disable_rawmode(&c->terminal);
 	terminal_main_screen();
 
-	
 	deinit(c);
 	return 1;
 }

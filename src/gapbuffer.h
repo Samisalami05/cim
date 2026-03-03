@@ -21,6 +21,9 @@ void gapbuffer_deinit(gapbuffer* buf);
 uint8_t gapbuffer_append(gapbuffer* buf, uint8_t data);
 uint8_t gapbuffer_append_n(gapbuffer* buf, const uint8_t* data, size_t size);
 
+uint8_t gapbuffer_remove(gapbuffer* buf);
+uint8_t gapbuffer_remove_n(gapbuffer* buf, size_t count); // TODO: implement this
+
 // Moves gap
 uint8_t gapbuffer_move(gapbuffer* buf, int move);
 uint8_t gapbuffer_moveto(gapbuffer* buf, size_t pos);
@@ -29,5 +32,7 @@ uint8_t gapbuffer_read_c(gapbuffer* buf, uint8_t* dest, size_t off);
 uint8_t gapbuffer_read(gapbuffer* buf, uint8_t* dest, size_t off, size_t size);
 
 void gapbuffer_clear(gapbuffer* buf);
+
+void gapbuffer_print(gapbuffer* buf);
 
 #endif

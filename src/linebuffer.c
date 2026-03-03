@@ -60,7 +60,7 @@ uint8_t linebuffer_append(linebuffer* buf, size_t line_off) {
 	buf->count++;
 
 
-	printf("allocated: %ld\n", buf->allocated);
+	printf("lines allocated: %ld\n", buf->allocated);
 	printf("[ ");
 	for (int i = 0; i < buf->allocated; i++) {
 		if ((i >= buf->gap_start && i <= buf->gap_end)) {
@@ -69,7 +69,7 @@ uint8_t linebuffer_append(linebuffer* buf, size_t line_off) {
 		}
 		printf("%ld ", buf->data[i]);
 	}
-	printf("]\n");
+	printf("]\n\n");
 
 
 	return 1;

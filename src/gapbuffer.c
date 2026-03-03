@@ -20,7 +20,6 @@ static uint8_t allocate(gapbuffer* buf, size_t size) {
 	// Bytes to the right of gap
 	size_t right = buf->size - buf->gap_start;
 
-	printf("right %ld\n", right);
 	if (right != 0) {
 		size_t move = buf->allocated - right;
 		memcpy(buf->data + move, buf->data + buf->gap_end + 1, right);
@@ -93,16 +92,16 @@ uint8_t gapbuffer_append_n(gapbuffer* buf, const uint8_t* data, size_t size) {
 	buf->size += size;
 	buf->gap_start += size;
 
-	printf("[ ");
-	for (int i = 0; i < buf->allocated; i++) {
-		if ((i >= buf->gap_start && i <= buf->gap_end)) {
-			printf("_ ");
-			continue;
-		}
-		printf("%c ", buf->data[i]);
-	}
-	printf("]\n");
+	return 1;
+}
 
+uint8_t gapbuffer_remove(gapbuffer* buf) {
+	if (buf->gap_start <= 0) return 0;
+	buf->gap_start--;
+	buf->size--;
+
+
+	printf("%ld\n", buf->gap_start);
 
 	return 1;
 }
@@ -150,7 +149,7 @@ uint8_t gapbuffer_read_c(gapbuffer* buf, uint8_t* dest, size_t off) {
 }
 
 uint8_t gapbuffer_read(gapbuffer* buf, uint8_t* dest, size_t off, size_t size) {
-	if (off < 0 || off + size > buf->size) {
+	if (off > buf->size || size > buf->size - off) {
 		fprintf(stderr, "Cant read from buffer: Trying to read out of bounds\n");
 		return 0;
 	}
@@ -169,4 +168,17 @@ uint8_t gapbuffer_read(gapbuffer* buf, uint8_t* dest, size_t off, size_t size) {
 
 void gapbuffer_clear(gapbuffer* buf) {
 	buf->size = 0;
+}
+
+
+void gapbuffer_print(gapbuffer* buf) {
+	printf("[ ");
+	for (int i = 0; i < buf->allocated; i++) {
+		if ((i >= buf->gap_start && i <= buf->gap_end)) {
+			printf("_ ");
+			continue;
+		}
+		printf("%c ", buf->data[i]);
+	}
+	printf("]\n");
 }
