@@ -116,6 +116,7 @@ uint8_t cim_run(cim* c) {
 
 		if (key == 127) { // backspace
 			gapbuffer_remove(&c->gap_buf); // TODO: Do line removal aswell
+			linebuffer_scale_line(&c->line_buf, c->cursor.line_num, -1);
 			continue;
 		}
 
